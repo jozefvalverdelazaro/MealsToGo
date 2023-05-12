@@ -1,10 +1,13 @@
 import React from "react";
 import { Card } from "react-native-paper";
+import { Text, Image } from "react-native";
 import styled from "styled-components/native";
 import { SvgXml } from "react-native-svg";
 
 import star from "../../../../assets/star";
 import open from "../../../../assets/open";
+
+import { Spacer } from "../../../components/spacer/spacer.component";
 
 const Tittle = styled.Text`
   font-family: ${(props) => props.theme.fonts.heading};
@@ -51,14 +54,14 @@ const RestaurantInfoCardCover = styled(Card.Cover)`
 export const RestaurantInfo = ({ restaurant = {} }) => {
   const {
     name = "Some Restaurant new",
-    icon,
+    icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
     photos = [
       "https://www.foodiesfeed.com/wp-content/uploads/2023/05/pizza-salami.jpg",
     ],
     address = "Av pucara",
     isOpenNow = true,
     rating = 4,
-    isClosedTemporarily,
+    isClosedTemporarily = true,
   } = restaurant;
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
@@ -73,7 +76,17 @@ export const RestaurantInfo = ({ restaurant = {} }) => {
             ))}
           </Rating>
           <IsOpen>
+            {isClosedTemporarily ? (
+              <Text variant="label" style={{ fontSize: 10, color: "red" }}>
+                TEMPORARILY CLOSE
+              </Text>
+            ) : (
+              ""
+            )}
+            <Spacer variant={"left.medium"} />
             {isOpenNow ? <SvgXml xml={open} width={20} height={20} /> : null}
+            <Spacer variant={"left.medium"} />
+            <Image style={{ height: 15, width: 15 }} source={{ uri: icon }} />
           </IsOpen>
         </RateAndOpenInfo>
         <Address>{address}</Address>
